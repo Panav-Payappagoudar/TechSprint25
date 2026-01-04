@@ -1,241 +1,171 @@
-let ads = JSON.parse(localStorage.getItem("ads")) || [
-  /* ---------------- MOBILES ---------------- */
-  {
-    id: 1,
-    title: "iPhone 13",
-    category: "Mobile",
-    price: "45,000",
-    images: ["https://via.placeholder.com/400x300?text=iPhone+13"]
-  },
-  {
-    id: 2,
-    title: "Samsung Galaxy S21",
-    category: "Mobile",
-    price: "38,000",
-    images: ["https://via.placeholder.com/400x300?text=Samsung+S21"]
-  },
-  {
-    id: 3,
-    title: "OnePlus 9",
-    category: "Mobile",
-    price: "32,000",
-    images: ["https://via.placeholder.com/400x300?text=OnePlus+9"]
-  },
+const market = document.getElementById("market");
+const search = document.getElementById("search");
 
-  /* ---------------- LAPTOPS ---------------- */
-  {
-    id: 4,
-    title: "MacBook Air M1",
-    category: "Laptop",
-    price: "75,000",
-    images: ["https://via.placeholder.com/400x300?text=MacBook+Air"]
-  },
-  {
-    id: 5,
-    title: "Dell XPS 13",
-    category: "Laptop",
-    price: "68,000",
-    images: ["https://via.placeholder.com/400x300?text=Dell+XPS"]
-  },
-  {
-    id: 6,
-    title: "HP Pavilion",
-    category: "Laptop",
-    price: "55,000",
-    images: ["https://via.placeholder.com/400x300?text=HP+Pavilion"]
-  },
+/* ================= AUTH ================= */
+const loginModal = document.getElementById("loginModal");
+const loginBtn = document.getElementById("loginBtn");
+const userBox = document.getElementById("userBox");
+const userNameSpan = document.getElementById("userName");
+const sellModal = document.getElementById("sellModal");
 
-  /* ---------------- BIKES ---------------- */
-  {
-    id: 7,
-    title: "Yamaha R15",
-    category: "Bike",
-    price: "1,45,000",
-    images: ["https://via.placeholder.com/400x300?text=Yamaha+R15"]
-  },
-  {
-    id: 8,
-    title: "Royal Enfield Classic 350",
-    category: "Bike",
-    price: "1,80,000",
-    images: ["https://via.placeholder.com/400x300?text=RE+Classic"]
-  },
-  {
-    id: 9,
-    title: "KTM Duke 200",
-    category: "Bike",
-    price: "1,60,000",
-    images: ["https://via.placeholder.com/400x300?text=KTM+Duke"]
-  },
+let currentUser = null;
 
-  /* ---------------- BOOKS ---------------- */
-  {
-    id: 10,
-    title: "Atomic Habits",
-    category: "Book",
-    price: "350",
-    images: ["https://via.placeholder.com/400x300?text=Atomic+Habits"]
-  },
-  {
-    id: 11,
-    title: "Rich Dad Poor Dad",
-    category: "Book",
-    price: "299",
-    images: ["https://via.placeholder.com/400x300?text=Rich+Dad"]
-  },
-  {
-    id: 12,
-    title: "Think Like a Monk",
-    category: "Book",
-    price: "399",
-    images: ["https://via.placeholder.com/400x300?text=Think+Like+a+Monk"]
-  }
-];
+function openLogin() { loginModal.style.display = "flex"; }
+function closeLogin() { loginModal.style.display = "none"; }
 
-localStorage.setItem("ads", JSON.stringify(ads));
-
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-let currentCategory = "All";
-let currentUser = localStorage.getItem("user") || null;
-
-
-/* THEME */
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-
-  const btn = document.getElementById("themeToggle");
-  const isDark = document.body.classList.contains("dark");
-
-  btn.textContent = isDark ? "🌙" : "☀";
-  localStorage.setItem("theme", isDark ? "dark" : "light");
+function login() {
+  currentUser = loginName.value || "Student";
+  userNameSpan.innerText = currentUser;
+  loginBtn.classList.add("hidden");
+  userBox.classList.remove("hidden");
+  closeLogin();
 }
 
-/* LOAD SAVED THEME */
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme === "dark") {
-  document.body.classList.add("dark");
-  document.getElementById("themeToggle").textContent = "🌙";
-}
-
-
-/* CATEGORY */
-function setCategory(cat) {
-  currentCategory = cat;
-
-  document.querySelectorAll(".categories button")
-    .forEach(btn => btn.classList.remove("active"));
-
-  event.target.classList.add("active");
-
-  loadAds();
-}
-
-
-/* ADS */
-function loadAds() {
-  let search = searchBox.value.toLowerCase();
-  adList.innerHTML = "";
-
-  ads
-    .filter(ad =>
-      (currentCategory === "All" || ad.category === currentCategory) &&
-      ad.title.toLowerCase().includes(search)
-    )
-    .forEach(ad => {
-      let liked = wishlist.includes(ad.id);
-
-      adList.innerHTML += `
-        <div class="card">
-          <div class="heart ${liked ? "active" : ""}" onclick="toggleWish(${ad.id})">❤</div>
-          <img src="${ad.images[0]}">
-          <div class="card-content">
-            <div class="price">₹ ${ad.price}</div>
-            <div class="title">${ad.title}</div>
-            <div class="meta">India · Today</div>
-          </div>
-        </div>
-      `;
-    });
-}
-
-
-/* WISHLIST */
-function toggleWish(id) {
-  wishlist.includes(id)
-    ? wishlist = wishlist.filter(i => i !== id)
-    : wishlist.push(id);
-
-  localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  loadAds();
-}
-
-loadAds();
-
-/* ---------------- LOGIN ---------------- */
-function openLogin() {
-  document.getElementById("loginModal").style.display = "flex";
-}
-
-function loginUser() {
-  const name = document.getElementById("usernameInput").value;
-  if (!name) return alert("Enter username");
-
-  currentUser = name;
-  localStorage.setItem("user", name);
-
-  document.getElementById("loginModal").style.display = "none";
-  updateUserUI();
-}
-
-function updateUserUI() {
-  const loginBtn = document.getElementById("loginBtn");
-  if (currentUser) {
-    loginBtn.textContent = currentUser;
-    loginBtn.onclick = logoutUser;
-  }
-}
-
-function logoutUser() {
-  localStorage.removeItem("user");
+function logout() {
   currentUser = null;
-  location.reload();
+  userBox.classList.add("hidden");
+  loginBtn.classList.remove("hidden");
 }
 
-/* ---------------- SELL ---------------- */
 function openSell() {
   if (!currentUser) {
-    alert("Please login to post an ad");
+    openLogin();
     return;
   }
-  document.getElementById("sellModal").style.display = "flex";
+  sellModal.style.display = "flex";
 }
 
-function postAd() {
-  const file = document.getElementById("adImage").files[0];
-  if (!file) return alert("Upload image");
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    ads.push({
-      id: Date.now(),
-      title: adTitle.value,
-      price: adPrice.value,
-      category: adCategory.value,
-      images: [reader.result]
-    });
-
-    localStorage.setItem("ads", JSON.stringify(ads));
-    document.getElementById("sellModal").style.display = "none";
-    loadAds();
-  };
-  reader.readAsDataURL(file);
+function closeSell() {
+  sellModal.style.display = "none";
 }
 
-/* INIT */
-updateUserUI();
+/* ================= ITEMS (10 EACH) ================= */
+const items = [
 
-window.onclick = e => {
-  if (e.target.classList.contains("modal")) {
-    e.target.style.display = "none";
-  }
-};
+/* -------- BOOKS -------- */
+{cat:"books",name:"Engineering Mathematics",price:450,tag:"Book",info:"B.S. Grewal",img:"engineering mathematics book"},
+{cat:"books",name:"Advanced Engineering Mathematics",price:500,tag:"Book",info:"Erwin Kreyszig",img:"advanced engineering mathematics book"},
+{cat:"books",name:"Engineering Physics",price:400,tag:"Book",info:"Avadhanulu",img:"engineering physics book"},
+{cat:"books",name:"Engineering Chemistry",price:350,tag:"Book",info:"Jain & Jain",img:"engineering chemistry book"},
+{cat:"books",name:"Engineering Mechanics",price:380,tag:"Book",info:"Timoshenko",img:"engineering mechanics book"},
+{cat:"books",name:"Engineering Drawing",price:500,tag:"Book",info:"N.D. Bhatt",img:"engineering drawing book"},
+{cat:"books",name:"Let Us C",price:300,tag:"Book",info:"Y. Kanetkar",img:"c programming book"},
+{cat:"books",name:"Data Structures",price:480,tag:"Book",info:"Reema Thareja",img:"data structures book"},
+{cat:"books",name:"Operating Systems",price:520,tag:"Book",info:"Silberschatz",img:"operating systems book"},
+{cat:"books",name:"Digital Electronics",price:420,tag:"Book",info:"Morris Mano",img:"digital electronics book"},
+
+/* -------- ELECTRONICS -------- */
+{cat:"electronics",name:"Laptop",price:38000,tag:"Used",info:"Online classes",img:"student laptop"},
+{cat:"electronics",name:"Smartphone",price:12000,tag:"Used",info:"Communication",img:"smartphone"},
+{cat:"electronics",name:"Bluetooth Earbuds",price:2200,tag:"Used",info:"Lectures",img:"bluetooth earbuds"},
+{cat:"electronics",name:"Noise Cancelling Headphones",price:4500,tag:"Like New",info:"Focus",img:"noise cancelling headphones"},
+{cat:"electronics",name:"Power Bank",price:1200,tag:"Used",info:"Charging",img:"power bank"},
+{cat:"electronics",name:"Smartwatch",price:3500,tag:"Used",info:"Fitness",img:"smartwatch"},
+{cat:"electronics",name:"Tablet",price:9500,tag:"Like New",info:"Notes",img:"tablet device"},
+{cat:"electronics",name:"External SSD",price:2600,tag:"Used",info:"Backup",img:"external ssd"},
+{cat:"electronics",name:"Desk Lamp",price:1500,tag:"Used",info:"Study light",img:"study desk lamp"},
+{cat:"electronics",name:"Scientific Calculator",price:900,tag:"Used",info:"Exams",img:"scientific calculator"},
+
+/* -------- SPORTS -------- */
+{cat:"sports",name:"Cricket Bat",price:1800,tag:"Used",info:"Practice",img:"cricket bat"},
+{cat:"sports",name:"Football",price:600,tag:"Used",info:"Ground play",img:"football"},
+{cat:"sports",name:"Badminton Racket",price:900,tag:"Like New",info:"Indoor",img:"badminton racket"},
+{cat:"sports",name:"Skipping Rope",price:250,tag:"Used",info:"Cardio",img:"skipping rope"},
+{cat:"sports",name:"Gym Gloves",price:400,tag:"Used",info:"Workout",img:"gym gloves"},
+{cat:"sports",name:"Yoga Mat",price:700,tag:"Used",info:"Yoga",img:"yoga mat"},
+{cat:"sports",name:"Volleyball",price:500,tag:"Used",info:"Court play",img:"volleyball"},
+{cat:"sports",name:"Basketball",price:650,tag:"Used",info:"Practice",img:"basketball"},
+{cat:"sports",name:"Tennis Racket",price:1100,tag:"Used",info:"Outdoor",img:"tennis racket"},
+{cat:"sports",name:"Sports Shoes",price:1800,tag:"Used",info:"Running",img:"sports shoes"},
+
+/* -------- ESSENTIALS -------- */
+{cat:"essentials",name:"Backpack",price:1200,tag:"Used",info:"Books & laptop",img:"college backpack"},
+{cat:"essentials",name:"Water Bottle",price:300,tag:"Used",info:"Hydration",img:"water bottle"},
+{cat:"essentials",name:"Lunch Box",price:350,tag:"Used",info:"Meals",img:"lunch box"},
+{cat:"essentials",name:"Umbrella",price:400,tag:"Used",info:"Rain",img:"umbrella"},
+{cat:"essentials",name:"Bedsheet Set",price:700,tag:"Used",info:"Hostel",img:"bedsheet pillow"},
+{cat:"essentials",name:"Trolley Bag",price:2500,tag:"Used",info:"Travel",img:"trolley bag"},
+{cat:"essentials",name:"Extension Box",price:450,tag:"Used",info:"Sockets",img:"extension box"},
+{cat:"essentials",name:"Room Heater",price:1800,tag:"Used",info:"Winter",img:"room heater"},
+{cat:"essentials",name:"Curtains",price:600,tag:"Used",info:"Room decor",img:"curtains"},
+{cat:"essentials",name:"Table Fan",price:1200,tag:"Used",info:"Cooling",img:"table fan"},
+
+/* -------- OTHERS -------- */
+{cat:"others",name:"Study Table",price:2200,tag:"Used",info:"Hostel furniture",img:"study table"},
+{cat:"others",name:"Chair",price:900,tag:"Used",info:"Seating",img:"study chair"},
+{cat:"others",name:"Wall Clock",price:350,tag:"Used",info:"Time",img:"wall clock"},
+{cat:"others",name:"Whiteboard",price:800,tag:"Like New",info:"Planning",img:"whiteboard"},
+{cat:"others",name:"Mirror",price:400,tag:"Used",info:"Room use",img:"mirror"},
+{cat:"others",name:"Shoe Rack",price:900,tag:"Used",info:"Storage",img:"shoe rack"},
+{cat:"others",name:"Dustbin",price:300,tag:"Used",info:"Waste",img:"dustbin"},
+{cat:"others",name:"Hangers Set",price:250,tag:"Used",info:"Clothes",img:"clothes hangers"},
+{cat:"others",name:"Lamp Shade",price:500,tag:"Used",info:"Lighting",img:"lamp shade"},
+{cat:"others",name:"Notice Board",price:700,tag:"Used",info:"Notes",img:"notice board"}
+];
+
+/* ================= RENDER ================= */
+function render() {
+  market.innerHTML = "";
+  items.forEach(i => {
+    market.innerHTML += `
+      <div class="item" data-category="${i.cat}">
+        <img src="https://source.unsplash.com/400x300/?${encodeURIComponent(i.img)}">
+        <h3>${i.name}</h3>
+        <p class="price">₹${i.price}</p>
+        <span class="tag ${i.tag === "Book" ? "blue" : "pink"}">${i.tag}</span>
+        <p>${i.info}</p>
+        <p>Seller: ${i.seller || "Campus Student"}</p>
+      </div>
+    `;
+  });
+}
+render();
+
+/* ================= SEARCH ================= */
+search.addEventListener("keyup", () => {
+  const v = search.value.toLowerCase();
+  document.querySelectorAll(".item").forEach(i => {
+    i.style.display = i.innerText.toLowerCase().includes(v) ? "block" : "none";
+  });
+});
+
+/* ================= FILTER ================= */
+function filterItems(cat) {
+  document.querySelectorAll(".item").forEach(i => {
+    i.style.display = cat === "all" || i.dataset.category === cat ? "block" : "none";
+  });
+}
+
+/* ================= SORT ================= */
+function sortPrice(asc) {
+  items.sort((a,b) => asc ? a.price - b.price : b.price - a.price);
+  render();
+}
+
+/* ================= SELL ITEM ================= */
+function sellItem() {
+  items.unshift({
+    cat: sellCategory.value,
+    name: sellName.value,
+    price: Number(sellPrice.value),
+    tag: sellCategory.value === "books" ? "Book" : sellCondition.value,
+    info: sellInfo.value || "User listed item",
+    img: sellImage.value || sellCategory.value,
+    seller: currentUser
+  });
+  closeSell();
+  render();
+}
+
+/* ================= THEME TOGGLE ================= */
+const themeBtn = document.getElementById("themeToggle");
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light");
+  themeBtn.innerText = "☀️";
+}
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  const isLight = document.body.classList.contains("light");
+  themeBtn.innerText = isLight ? "☀️" : "🌙";
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+}

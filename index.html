@@ -2,71 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Marketplace</title>
+  <title>FindHub | Campus Marketplace</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="top-bar">
-  <div class="logo">FindHub</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">Find<span>Hub</span></div>
 
-  <input id="searchBox" placeholder="Search items..." onkeyup="loadAds()">
+  <input type="text" id="search" placeholder="Search items inside campus...">
 
-  <div class="nav-actions">
-    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">☀</button>
-    <span>Wishlist</span>
-    <span id="loginBtn" onclick="openLogin()">Login</span>
-    <button class="sell-btn" onclick="openSell()">+ SELL</button>
+  <div class="auth">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
+    <button class="sell-btn" onclick="openSell()">Sell</button>
+
+    <div id="userBox" class="hidden">
+      👤 <span id="userName">Student</span>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <button id="loginBtn" onclick="openLogin()">Login</button>
   </div>
-</header>
-
-<nav class="categories">
-  <button onclick="setCategory('All')" class="active">All</button>
-  <button onclick="setCategory('Mobile')">Mobiles</button>
-  <button onclick="setCategory('Laptop')">Laptops</button>
-  <button onclick="setCategory('Bike')">Bikes</button>
-  <button onclick="setCategory('Book')">Books</button>
 </nav>
 
+<p class="campus-note">🔒 Campus-only marketplace · Buy & sell among students</p>
 
+<!-- HERO -->
 <section class="hero">
-  <h1>Fresh Finds</h1>
-  <p>Curated listings just for you</p>
+  <h1>Buy & Sell <br><span>Inside Your Campus</span></h1>
+  <p>Second-hand · Affordable · Student-friendly</p>
 </section>
 
-<section class="ads-section">
-  <div id="adList" class="grid"></div>
+<!-- FILTERS -->
+<section class="filters">
+  <button onclick="filterItems('all')">All</button>
+  <button onclick="filterItems('books')">Books</button>
+  <button onclick="filterItems('electronics')">Electronics</button>
+  <button onclick="filterItems('sports')">Sports</button>
+  <button onclick="filterItems('essentials')">Essentials</button>
+  <button onclick="filterItems('others')">Others</button>
+
+  <div class="sort">
+    <button onclick="sortPrice(true)">Low → High</button>
+    <button onclick="sortPrice(false)">High → Low</button>
+  </div>
 </section>
 
-<script src="script.js"></script>
+<!-- MARKET -->
+<section class="market" id="market"></section>
 
 <!-- LOGIN MODAL -->
-<div id="loginModal" class="modal">
-  <div class="modal-box">
+<div class="modal" id="loginModal">
+  <div class="modal-content">
     <h2>Login</h2>
-    <input id="usernameInput" placeholder="Username">
-    <button onclick="loginUser()">Login</button>
+    <input id="loginName" placeholder="Your name">
+    <button class="primary" onclick="login()">Login</button>
+    <button class="secondary" onclick="closeLogin()">Cancel</button>
   </div>
 </div>
 
 <!-- SELL MODAL -->
-<div id="sellModal" class="modal">
-  <div class="modal-box">
-    <h2>Post Ad</h2>
-    <input id="adTitle" placeholder="Title">
-    <input id="adPrice" placeholder="Price">
-    <select id="adCategory">
-      <option>Mobile</option>
-      <option>Laptop</option>
-      <option>Bike</option>
-      <option>Book</option>
+<div class="modal" id="sellModal">
+  <div class="modal-content">
+    <h2>Sell Item</h2>
+
+    <input id="sellName" placeholder="Item name">
+    <input id="sellPrice" placeholder="Price">
+    <input id="sellImage" placeholder="Image keyword (optional)">
+    <input id="sellInfo" placeholder="Short description">
+
+    <select id="sellCategory">
+      <option value="books">Books</option>
+      <option value="electronics">Electronics</option>
+      <option value="sports">Sports</option>
+      <option value="essentials">Essentials</option>
+      <option value="others">Others</option>
     </select>
-    <input type="file" id="adImage">
-    <button onclick="postAd()">Post</button>
+
+    <select id="sellCondition">
+      <option>Used</option>
+      <option>Like New</option>
+    </select>
+
+    <button class="primary" onclick="sellItem()">Post Item</button>
+    <button class="secondary" onclick="closeSell()">Cancel</button>
   </div>
 </div>
 
+<footer>
+  © 2026 FindHub · Campus Marketplace
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
