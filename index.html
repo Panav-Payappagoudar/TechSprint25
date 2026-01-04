@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketplace</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="logo">FindHub</div>
+
+  <input id="searchBox" placeholder="Search items..." onkeyup="loadAds()">
+
+  <div class="nav-actions">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">☀</button>
+    <span>Wishlist</span>
+    <span id="loginBtn" onclick="openLogin()">Login</span>
+    <button class="sell-btn" onclick="openSell()">+ SELL</button>
+
+  </div>
+</header>
+
+<nav class="categories">
+  <button onclick="setCategory('All')" class="active">All</button>
+  <button onclick="setCategory('Mobile')">Mobiles</button>
+  <button onclick="setCategory('Laptop')">Laptops</button>
+  <button onclick="setCategory('Bike')">Bikes</button>
+  <button onclick="setCategory('Book')">Books</button>
+</nav>
+
+
+<section class="hero">
+  <h1>Fresh Finds</h1>
+  <p>Curated listings just for you</p>
+</section>
+
+<section class="ads-section">
+  <div id="adList" class="grid"></div>
+</section>
+
+<script src="script.js"></script>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="modal">
+  <div class="modal-box">
+    <h2>Login</h2>
+    <input id="usernameInput" placeholder="Username">
+    <button onclick="loginUser()">Login</button>
+  </div>
+</div>
+
+<!-- SELL MODAL -->
+<div id="sellModal" class="modal">
+  <div class="modal-box">
+    <h2>Post Ad</h2>
+    <input id="adTitle" placeholder="Title">
+    <input id="adPrice" placeholder="Price">
+    <select id="adCategory">
+      <option>Mobile</option>
+      <option>Laptop</option>
+      <option>Bike</option>
+      <option>Book</option>
+    </select>
+    <input type="file" id="adImage">
+    <button onclick="postAd()">Post</button>
+  </div>
+</div>
+
+</body>
+</html>
