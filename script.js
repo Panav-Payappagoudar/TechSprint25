@@ -39,6 +39,49 @@ function closeSell() {
   sellModal.style.display = "none";
 }
 
+const imageMap = {
+  /* BOOKS */
+  "Engineering Mathematics": "https://images.unsplash.com/photo-1581092334651-ddf26d9c1d38",
+  "Advanced Engineering Mathematics": "https://images.unsplash.com/photo-1512820790803-83ca734da794",
+  "Engineering Physics": "https://images.unsplash.com/photo-1532012197267-da84d127e765",
+  "Engineering Chemistry": "https://images.unsplash.com/photo-1601972599720-b0c42a4c4fba",
+  "Engineering Mechanics": "https://images.unsplash.com/photo-1507842217343-583bb7270b66",
+  "Engineering Drawing": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+  "Let Us C": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
+  "Data Structures": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
+  "Operating Systems": "https://images.unsplash.com/photo-1518770660439-4636190af475",
+  "Digital Electronics": "https://images.unsplash.com/photo-1581093588401-22c8f1a63f91",
+
+  /* ELECTRONICS */
+  "Laptop": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
+  "Smartphone": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+  "Bluetooth Earbuds": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df",
+  "Noise Cancelling Headphones": "https://images.unsplash.com/photo-1583394838336-acd977736f90",
+  "Power Bank": "https://images.unsplash.com/photo-1585386959984-a41552231692",
+  "Smartwatch": "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b",
+  "Tablet": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04",
+  "External SSD": "https://images.unsplash.com/photo-1587202372775-e229f172b9d1",
+  "Desk Lamp": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c",
+  "Scientific Calculator": "https://images.unsplash.com/photo-1581091012184-5c8ecdf9d1cf",
+
+  /* SPORTS */
+  "Cricket Bat": "https://images.unsplash.com/photo-1593766827228-8737b4534aa6",
+  "Football": "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d",
+  "Badminton Racket": "https://images.unsplash.com/photo-1602526216033-8f12a4a5cb9b",
+  "Skipping Rope": "https://images.unsplash.com/photo-1599058917212-d750089bc07b",
+  "Gym Gloves": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1",
+  "Yoga Mat": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf",
+
+  /* ESSENTIALS */
+  "Backpack": "https://images.unsplash.com/photo-1509762774605-f07235a08f1f",
+  "Water Bottle": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+  "Lunch Box": "https://images.unsplash.com/photo-1589302168068-964664d93dc0",
+  "Umbrella": "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a",
+  "Study Table": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+  "Chair": "https://images.unsplash.com/photo-1582582429416-8b5eeb8df98d"
+};
+
+
 /* ================= ITEMS (10 EACH) ================= */
 const items = [
 
@@ -107,9 +150,12 @@ const items = [
 function render() {
   market.innerHTML = "";
   items.forEach(i => {
+
+    const imgSrc = imageMap[i.name] || "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f";
+
     market.innerHTML += `
       <div class="item" data-category="${i.cat}">
-        <img src="https://source.unsplash.com/400x300/?${encodeURIComponent(i.img)}">
+        <img src="${imgSrc}">
         <h3>${i.name}</h3>
         <p class="price">₹${i.price}</p>
         <span class="tag ${i.tag === "Book" ? "blue" : "pink"}">${i.tag}</span>
@@ -119,6 +165,7 @@ function render() {
     `;
   });
 }
+
 render();
 
 /* ================= SEARCH ================= */
