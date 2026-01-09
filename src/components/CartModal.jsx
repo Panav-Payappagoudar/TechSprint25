@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Plus, Minus, ShoppingCart, CreditCard } from 'lucide-react';
+import { X, Plus, Minus, ShoppingCart, CreditCard, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/useCart';
 import '../styles/CartModal.css';
 
@@ -16,23 +16,24 @@ export default function CartModal({ isOpen, onClose }) {
     };
 
     return (
-        <div className="modal-overlay animate-fade-in">
+        <div className="modal-overlay">
             <div className="cart-modal">
-                <button onClick={onClose} className="modal-close-btn">
-                    <X size={24} />
-                </button>
-
                 <div className="modal-header">
-                    <ShoppingCart size={28} color="var(--primary)" />
-                    <h2 className="modal-title">Shopping Cart</h2>
+                    <div className="header-title-group">
+                        <ShoppingCart size={24} color="var(--primary)" />
+                        <h2 className="modal-title">Your Cart</h2>
+                    </div>
+                    <button onClick={onClose} className="modal-close-btn">
+                        <X size={20} />
+                    </button>
                 </div>
 
                 {cartItems.length === 0 ? (
                     <div className="empty-cart">
-                        <ShoppingCart size={48} className="empty-cart-icon" />
-                        <p>Your cart is empty</p>
+                        <ShoppingCart size={64} className="empty-cart-icon" />
+                        <h3>Your cart is empty</h3>
                         <p className="empty-cart-text">
-                            Add some items to get started
+                            Time to find some hidden treasures!
                         </p>
                     </div>
                 ) : (
@@ -47,14 +48,14 @@ export default function CartModal({ isOpen, onClose }) {
                                             <ShoppingCart size={24} color="#9CA3AF" />
                                         </div>
                                     )}
-                                    
+
                                     <div className="cart-item-info">
                                         <h4 className="cart-item-title">{item.title}</h4>
                                         <p className="cart-item-price">₹{new Intl.NumberFormat('en-IN').format(item.price)}</p>
                                     </div>
 
                                     <div className="cart-item-actions">
-                                        <button 
+                                        <button
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                             className="qty-btn"
                                         >
@@ -63,7 +64,7 @@ export default function CartModal({ isOpen, onClose }) {
                                         <span className="cart-item-quantity">
                                             {item.quantity}
                                         </span>
-                                        <button 
+                                        <button
                                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                             className="qty-btn"
                                         >
@@ -81,8 +82,7 @@ export default function CartModal({ isOpen, onClose }) {
                             </div>
 
                             <button onClick={handleCheckout} className="checkout-btn">
-                                <CreditCard size={20} />
-                                Proceed to Checkout
+                                Proceed to Checkout <ArrowRight size={20} />
                             </button>
                         </div>
                     </>

@@ -1,114 +1,134 @@
 .login-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(1200px circle at 10% 10%, #e0f2fe 0%, #eef2ff 40%, #f8fafc 100%);
+  padding: 20px;
 }
 
 .login-card {
-    background: white;
-    border-radius: 24px;
-    padding: 48px;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  padding: 48px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.12);
 }
 
 .login-header {
-    margin-bottom: 32px;
+  margin-bottom: 32px;
+}
+
+.login-error-banner {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  background: #fff3f3;
+  color: #b00020;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
 }
 
 .login-logo {
-    width: 64px;
-    height: 64px;
-    background: var(--primary);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 24px;
-    box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.4);
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--primary), #2563EB);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.4);
 }
 
 .logo-symbol {
-    font-size: 32px;
-    font-weight: 800;
-    color: white;
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
 }
 
 .login-header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--gray-900);
-    margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
 }
 
 .login-header p {
-    color: var(--gray-500);
-    font-size: 16px;
+  color: var(--text-secondary);
+  font-size: 16px;
 }
 
 .google-login-btn {
-    width: 100%;
-    height: 56px;
-    background: white;
-    border: 2px solid var(--gray-200);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--gray-700);
-    cursor: pointer;
-    transition: all 0.2s ease;
+  width: 100%;
+  height: 56px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .google-login-btn:hover:not(:disabled) {
-    background: var(--gray-50);
-    border-color: var(--gray-300);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: var(--bg-page);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .google-login-btn:active:not(:disabled) {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 .google-login-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .google-icon {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .login-note {
-    margin-top: 24px;
-    font-size: 14px;
-    color: var(--gray-400);
-    line-height: 1.5;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.5;
 }
 
 .login-footer {
-    margin-top: 48px;
-    padding-top: 24px;
-    border-top: 1px solid var(--gray-100);
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
 }
 
 .login-footer p {
-    font-size: 12px;
-    color: var(--gray-400);
+  font-size: 12px;
+  color: var(--text-light);
 }
 
 @media (max-width: 640px) {
-    .login-card {
-        padding: 32px 24px;
-    }
+  .login-card {
+    padding: 32px 24px;
+  }
 }

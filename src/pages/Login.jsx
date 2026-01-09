@@ -7,6 +7,7 @@ export default function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const handleGoogleLogin = async () => {
         setIsLoading(true);
@@ -14,7 +15,8 @@ export default function Login() {
             await login();
             navigate('/feed');
         } catch (error) {
-            console.error('Login failed:', error);
+            const msg = (error && error.message) ? error.message : 'Login failed. Please try again.';
+            setErrorMsg(msg);
         } finally {
             setIsLoading(false);
         }
@@ -32,6 +34,11 @@ export default function Login() {
                 </div>
 
                 <div className="login-content">
+                    {errorMsg && (
+                        <div className="login-error-banner">
+                            {errorMsg}
+                        </div>
+                    )}
                     <button 
                         className={`google-login-btn ${isLoading ? 'loading' : ''}`}
                         onClick={handleGoogleLogin}

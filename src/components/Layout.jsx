@@ -1,8 +1,9 @@
 import React from 'react';
 import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Grid, Plus, MessageCircle, User, MapPin, ShoppingCart, LogIn, LogOut } from 'lucide-react';
+import { Home, Grid, Plus, MessageCircle, User, MapPin, ShoppingCart, LogIn, LogOut, Sun, Moon } from 'lucide-react';
 import { useCart } from '../context/useCart';
 import { useAuth } from '../context/useAuth';
+import { useTheme } from '../context/ThemeContext';
 import '../styles/Layout.css';
 
 export default function Layout({ onSellClick, onCartClick }) {
@@ -10,6 +11,7 @@ export default function Layout({ onSellClick, onCartClick }) {
     const navigate = useNavigate();
     const { getCartItemCount } = useCart();
     const { user, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const isLanding = location.pathname === '/';
 
     if (isLanding) return <Outlet />;
@@ -49,7 +51,11 @@ export default function Layout({ onSellClick, onCartClick }) {
                         </div>
 
                         <div className="desktop-nav">
-                             <button onClick={onCartClick} className="icon-btn-desktop">
+                            <button onClick={toggleTheme} className="icon-btn-desktop theme-toggle" title={theme === 'dark' ? "Light Mode" : "Dark Mode"}>
+                                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                            </button>
+
+                            <button onClick={onCartClick} className="icon-btn-desktop">
                                 <div className="cart-badge-wrapper">
                                     <ShoppingCart size={22} />
                                     {getCartItemCount() > 0 && (
@@ -59,7 +65,7 @@ export default function Layout({ onSellClick, onCartClick }) {
                                     )}
                                 </div>
                             </button>
-                        
+
                             <button onClick={handleSellClick} className="btn-primary sell-btn-desktop">
                                 + Sell
                             </button>
@@ -96,7 +102,7 @@ export default function Layout({ onSellClick, onCartClick }) {
                         </>
                     )}
                 </NavLink>
-                
+
                 <NavLink to="/categories" className="mobile-nav-item">
                     {({ isActive }) => (
                         <>
@@ -105,6 +111,11 @@ export default function Layout({ onSellClick, onCartClick }) {
                         </>
                     )}
                 </NavLink>
+
+                <div className="mobile-nav-item" onClick={toggleTheme}>
+                    {theme === 'dark' ? <Sun size={24} className="mobile-nav-icon" /> : <Moon size={24} className="mobile-nav-icon" />}
+                    <span>Theme</span>
+                </div>
 
                 <button onClick={handleSellClick} className="sell-fab">
                     <Plus size={32} />
